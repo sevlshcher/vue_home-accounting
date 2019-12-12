@@ -3,8 +3,18 @@
     <router-view/>
   </div>
 </template>
+
 <script>
 export default {
-  
+  computed: {
+    error() {
+      return this.$store.getters.error;
+    } 
+  },
+  watch: {
+    error(fbError) {
+      this.$toaster.error(fbError.code);
+    }
+  }
 }
 </script>
