@@ -56,7 +56,7 @@ export default {
     limit: { minValue: minValue(100)}
   },
   mounted() {
-    window.M.updateTextFields()
+    window.M.updateTextFields();
   },
   methods: {
     async submitHandler() {
