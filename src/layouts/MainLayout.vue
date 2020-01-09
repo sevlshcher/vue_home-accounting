@@ -1,24 +1,27 @@
 <template>
-  <div class="app-main-layout">
+  <div>
+    <Loader v-if="loading" />
+    <div v-else class="app-main-layout">
 
-    <Navbar @click="isOpen = !isOpen"/>
+      <Navbar @click="isOpen = !isOpen"/>
 
-    <Sidebar v-model="isOpen"/>
+      <Sidebar v-model="isOpen"/>
 
-    <main
-      :class="{full: !isOpen}"
-      class="app-content">
-      <div class="app-page">
-        <router-view/>
+      <main
+        :class="{full: !isOpen}"
+        class="app-content">
+        <div class="app-page">
+          <router-view/>
+        </div>
+      </main>
+
+      <div class="fixed-action-btn">
+        <router-link
+          to="/record"
+          class="btn-floating btn-large blue">
+          <i class="large material-icons">add</i>
+        </router-link>
       </div>
-    </main>
-
-    <div class="fixed-action-btn">
-      <router-link
-        to="/record"
-        class="btn-floating btn-large blue">
-        <i class="large material-icons">add</i>
-      </router-link>
     </div>
   </div>
 </template>
@@ -28,8 +31,15 @@ import Navbar from "@/components/app/Navbar";
 import Sidebar from "@/components/app/Sidebar";
 export default {
   data: () => ({
-    isOpen: true
+    isOpen: true,
+    loading: true
   }),
+  async mounted() {
+    if(!Object.keys(this.$store.getters.getUserData).length) {
+      await this.$store.dispatch('fetchUserData');
+    }
+    this.loading = false;
+  },
   components: {
     Navbar,
     Sidebar

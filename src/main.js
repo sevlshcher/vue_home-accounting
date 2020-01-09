@@ -5,6 +5,8 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import dateFilter from '@/filters/date.filter';
+import currencyFilter from '@/filters/currency.filter';
+import Loader from '@/components/app/Loader';
 import './registerServiceWorker';
 import 'v-toaster/dist/v-toaster.css';
 import 'materialize-css/dist/js/materialize.min';
@@ -19,6 +21,9 @@ Vue.use(Vuelidate);
 Vue.use(Toaster, { timeout: 5000 });
 
 Vue.filter('date', dateFilter);
+Vue.filter('currency', currencyFilter);
+
+Vue.component('Loader', Loader);
 
 firebase.initializeApp({
   apiKey: "AIzaSyDwqlh5xl28wGEPdcrvei2T4bZ8MPneM_k",

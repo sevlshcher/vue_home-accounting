@@ -15,7 +15,7 @@
             href="#"
             data-target="dropdown"
             ref="dropdown">
-            USER NAME
+            {{ name }}
             <i class="material-icons right">arrow_drop_down</i>
           </a>
 
@@ -25,7 +25,7 @@
                 <i class="material-icons">account_circle</i>Профиль
               </router-link>
             </li>
-            <li class="divider" tabindex="-1"></li>
+            <li class="divider" :tabindex="-1"></li>
             <li>
               <a href="#!" class="black-text" @click.prevent="logout">
                 <i class="material-icons">assignment_return</i>Выйти
@@ -50,6 +50,11 @@ export default {
       await this.$store.dispatch("logout");
       this.$router.push("/login");
       this.$toaster.info("Вы вышли из системы");
+    }
+  },
+  computed: {
+    name() {
+      return this.$store.getters.getUserData.name;
     }
   },
   mounted() {
