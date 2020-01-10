@@ -13,6 +13,7 @@
           :categories="categories"
           :key="categories.length + updateCount"
           @updated="updateCategories" />
+
         <div v-else class="page-subtitle">
           <h4 class="center">Категорий пока нет</h4>
         </div>
@@ -22,7 +23,6 @@
 </template>
 
 <script>
-import Loader from '@/components/app/Loader'
 import CategoryCreate from '@/components/CategoryCreate';
 import CategoryEdit from '@/components/CategoryEdit';
 

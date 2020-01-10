@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import auth from './modules/auth'
 import userData from './modules/userData'
 import category from './modules/category'
+import record from './modules/record'
 
 Vue.use(Vuex)
 
@@ -31,6 +32,7 @@ export default new Vuex.Store({
   modules: {
     auth,
     userData,
-    category
+    category,
+    record
   }
 })

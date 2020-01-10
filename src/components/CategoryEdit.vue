@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { required, minValue } from 'vuelidate/lib/validators'
+import { required, minValue } from 'vuelidate/lib/validators';
 
 export default {
   props: {
@@ -113,13 +113,10 @@ export default {
         };
         await this.$store.dispatch('updateCategory', categoryData);
 
-        // this.title = '';
-        // this.limit = 100;
-        // this.$v.$reset();
         this.$toaster.success(`Категория ${categoryData.title} успешно обновлена`);
         this.$emit('updated', categoryData);
       } catch (e) {}
     }
-  },
+  }
 }
 </script>
