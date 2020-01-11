@@ -7,7 +7,7 @@
     <Loader v-if="loading" />
 
     <div v-else-if="!categories.length" class="page-subtitle">
-      <h4 class="center">Категорий пока нет</h4>
+      <h4 class="center">Категорий пока нет. <router-link to="/categories">Добавить новую категорию</router-link></h4>
     </div>
 
     <form
@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex';
 import { required, minValue } from 'vuelidate/lib/validators';
 
 export default {
@@ -110,7 +110,7 @@ export default {
     description: { required }
   },
   async mounted() {
-    this.categories = await this.$store.dispatch('fetchCategories'),
+    this.categories = await this.fetchCategories();
     this.loading = false;
 
     if (this.categories.length) {
@@ -139,8 +139,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['createRecord',
-      'updateUserData']),
+    ...mapActions([
+      'fetchCategories', 'createRecord', 'updateUserData'
+    ]),
     async submitHandler() {
       if (this.$v.$invalid) {
         this.$v.$touch();
