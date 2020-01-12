@@ -45,6 +45,16 @@ export default {
   components: {
     Navbar,
     Sidebar
+  },
+  computed: {
+    error() {
+      return this.$store.getters.error;
+    } 
+  },
+  watch: {
+    error(fbError) {
+      this.$toaster.error(fbError.code || 'Упссс... Что-то пошло не так');
+    }
   }
 }
 </script>

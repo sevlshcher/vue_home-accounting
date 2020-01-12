@@ -8,43 +8,51 @@
       <canvas></canvas>
     </div>
 
-    <section>
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Сумма</th>
-            <th>Дата</th>
-            <th>Категория</th>
-            <th>Тип</th>
-            <th>Открыть</th>
-          </tr>
-        </thead>
+    <Loader v-if="loading" />
 
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>1212</td>
-            <td>12.12.32</td>
-            <td>name</td>
-            <td>
-              <span class="white-text badge red">Расход</span>
-            </td>
-            <td>
-              <button class="btn-small btn">
-                <i class="material-icons">open_in_new</i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div v-else-if="!records.length" class="page-subtitle">
+      <h4 class="center">Записей пока нет. <router-link to="/record">Добавить новую запись</router-link></h4>
+    </div>
+
+    <section v-else>
+      <HistoryTable :records="records" />
     </section>
   </div>
 </template>
 
 <script>
-export default {};
-</script>
+import HistoryTable from '@/components/HistoryTable';
+import { mapGetters, mapActions } from 'vuex';
 
-<style>
-</style>
+export default {
+  components: {
+    HistoryTable
+  },
+  data: () => ({
+    loading: true,
+    categories: [],
+    records: []
+  }),
+  async mounted() {
+    const records = await this.fetchRecords();
+
+    this.categories = await this.fetchCategories();
+    this.records = records.map(rec => {
+
+      return {
+        ...rec,
+        categoryName: this.categories.find(cat => cat.id === rec.categoryId).title,
+        typeClass: rec.type === 'income' ? 'green' : 'red',
+        typeText: rec.type === 'income' ? 'Доход' : 'Расход',
+      }
+    });
+
+    this.loading = false;
+  },
+  methods: {
+    ...mapActions([
+      'fetchCategories', 'fetchRecords'
+    ]),
+  },
+};
+</script>

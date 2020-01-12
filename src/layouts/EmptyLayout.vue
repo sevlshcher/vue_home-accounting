@@ -13,7 +13,7 @@ export default {
   },
   watch: {
     error(fbError) {
-      this.$toaster.error(fbError.code);
+      this.$toaster.error(fbError.code || 'Упссс... Что-то пошло не так');
     }
   }
 }
