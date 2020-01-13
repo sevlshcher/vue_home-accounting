@@ -15,12 +15,22 @@
     </div>
 
     <section v-else>
-      <HistoryTable :records="records" />
+      <HistoryTable :records="items" />
+
+      <Paginate
+        v-model="page"
+        :pageCount="pageCount"
+        :clickHandler="pageChangeHandler"
+        :prevText="'Prev'"
+        :nextText="'Next'"
+        :containerClass="'pagination'"
+        :pageClass="'waves-effect'"/>
     </section>
   </div>
 </template>
 
 <script>
+import paginationMixin from '@/mixins/pagination.mixin';
 import HistoryTable from '@/components/HistoryTable';
 import { mapGetters, mapActions } from 'vuex';
 
@@ -28,31 +38,31 @@ export default {
   components: {
     HistoryTable
   },
+  mixins: [paginationMixin],
   data: () => ({
     loading: true,
-    categories: [],
     records: []
   }),
   async mounted() {
-    const records = await this.fetchRecords();
+    const categories = await this.fetchCategories();
 
-    this.categories = await this.fetchCategories();
-    this.records = records.map(rec => {
+    this.records = await this.fetchRecords();
+    this.setupPagination(this.records.map(rec => {
 
       return {
         ...rec,
-        categoryName: this.categories.find(cat => cat.id === rec.categoryId).title,
+        categoryName: categories.find(cat => cat.id === rec.categoryId).title,
         typeClass: rec.type === 'income' ? 'green' : 'red',
         typeText: rec.type === 'income' ? 'Доход' : 'Расход',
       }
-    });
+    }));
 
     this.loading = false;
   },
   methods: {
     ...mapActions([
       'fetchCategories', 'fetchRecords'
-    ]),
+    ])
   },
 };
 </script>
