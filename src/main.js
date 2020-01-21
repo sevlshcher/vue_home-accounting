@@ -6,6 +6,7 @@ import router from './router';
 import store from './store';
 import dateFilter from '@/filters/date.filter';
 import currencyFilter from '@/filters/currency.filter';
+import localizeFilter from '@/filters/localize.filter';
 import tooltipDirective from '@/directives/tooltip.directive';
 import Loader from '@/components/app/Loader';
 import Paginate from 'vuejs-paginate';
@@ -24,20 +25,21 @@ Vue.use(Toaster, { timeout: 5000 });
 
 Vue.filter('date', dateFilter);
 Vue.filter('currency', currencyFilter);
+Vue.filter('localize', localizeFilter);
 Vue.directive('tooltip', tooltipDirective);
 
 Vue.component('Loader', Loader);
 Vue.component('Paginate', Paginate);
 
 firebase.initializeApp({
-  apiKey: "AIzaSyDwqlh5xl28wGEPdcrvei2T4bZ8MPneM_k",
-  authDomain: "vue-crm-d43b2.firebaseapp.com",
-  databaseURL: "https://vue-crm-d43b2.firebaseio.com",
-  projectId: "vue-crm-d43b2",
-  storageBucket: "vue-crm-d43b2.appspot.com",
-  messagingSenderId: "724914531914",
-  appId: "1:724914531914:web:9da5a927bfe70e330dc0b3",
-  measurementId: "G-GJZEBSFN97"
+  apiKey: `${process.env.VUE_APP_API_KEY}`,
+  authDomain: `${process.env.VUE_APP_PROJECT_ID}.firebaseapp.com`,
+  databaseURL: `https://${process.env.VUE_APP_PROJECT_ID}.firebaseio.com`,
+  projectId: `${process.env.VUE_APP_PROJECT_ID}`,
+  storageBucket: `${process.env.VUE_APP_PROJECT_ID}.appspot.com`,
+  messagingSenderId: `${process.env.VUE_APP_SENDER_I}`,
+  appId: `1:${process.env.VUE_APP_SENDER_I}:web:9da5a927bfe70e330dc0b3`,
+  measurementId: `${process.env.VUE_APP_MEASURMENT_ID}`
 });
 
 let app;
