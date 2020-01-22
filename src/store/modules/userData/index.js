@@ -11,7 +11,7 @@ export default {
     async updateUserData ({ dispatch, commit, getters }, toUpdate) {
       try {
         const uid = await dispatch('getUserId');
-        const updatedData = {...getters.info, ...toUpdate};
+        const updatedData = {...getters.getUserData, ...toUpdate};
 
         await firebase.database().ref(`/users/${uid}/info`).update(updatedData);
         commit('setUserData', updatedData);
@@ -40,7 +40,7 @@ export default {
       state.userData = userData;
     },
     clearUserData(state) {
-      state.userData = {};
+      state.userData = { locale: state.userData.locale };
     }
   }
 }

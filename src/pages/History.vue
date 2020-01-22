@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>История записей</h3>
+      <h3>{{ 'Menu_History' | localize }}</h3>
     </div>
 
     <div class="history-chart">
@@ -11,7 +11,7 @@
     <Loader v-if="loading" />
 
     <div v-else-if="!records.length" class="page-subtitle">
-      <h4 class="center">Записей пока нет. <router-link to="/record">Добавить новую запись</router-link></h4>
+      <h4 class="center">{{ 'No_Records' | localize }}. <router-link to="/record">{{ 'Add_Record' | localize }}</router-link></h4>
     </div>
 
     <section v-else>
@@ -21,8 +21,8 @@
         v-model="page"
         :pageCount="pageCount"
         :clickHandler="pageChangeHandler"
-        :prevText="'Prev'"
-        :nextText="'Next'"
+        :prevText="paginationText.prev"
+        :nextText="paginationText.next"
         :containerClass="'pagination'"
         :pageClass="'waves-effect'"/>
     </section>
@@ -32,10 +32,16 @@
 <script>
 import paginationMixin from '@/mixins/pagination.mixin';
 import HistoryTable from '@/components/HistoryTable';
+import localizeFilter from '@/filters/localize.filter';
 import { mapGetters, mapActions } from 'vuex';
 import { Pie } from 'vue-chartjs';
 
 export default {
+  metaInfo() {
+    return {
+      title: this.$title('Menu_History')
+    }
+  },
   components: {
     HistoryTable
   },
@@ -52,6 +58,16 @@ export default {
     this.setup(categories);
     this.loading = false;
   },
+  computed: {
+    paginationText() {
+      const text = {};
+
+      text.prev = `${localizeFilter('Prev')}`;
+      text.next = `${localizeFilter('Next')}`;
+
+      return text;
+    }
+  },
   methods: {
     ...mapActions([
       'fetchCategories', 'fetchRecords'
@@ -62,7 +78,7 @@ export default {
           ...rec,
           categoryName: categories.find(cat => cat.id === rec.categoryId).title,
           typeClass: rec.type === 'income' ? 'green' : 'red',
-          typeText: rec.type === 'income' ? 'Доход' : 'Расход',
+          typeText: rec.type === 'income' ? localizeFilter('Income') : localizeFilter('Expense'),
         }
       }));
 

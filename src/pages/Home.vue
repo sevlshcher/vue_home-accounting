@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>Счет</h3>
+      <h3>{{ 'Menu_Bill' | localize }}</h3>
 
       <button
         @click="refresh"
@@ -25,6 +25,11 @@ import HomeBill from '@/components/HomeBill';
 import HomeCurrency from '@/components/HomeCurrency';
 
 export default {
+  metaInfo() {
+    return {
+      title: this.$title('Menu_Bill')
+    }
+  },
   data: () => ({
     loadding: true,
     currency: null

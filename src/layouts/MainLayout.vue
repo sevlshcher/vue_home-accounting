@@ -18,9 +18,10 @@
       <div class="fixed-action-btn">
         <router-link
           to="/record"
+          :key="locale +'1'"
           class="btn-floating btn-large blue"
           data-position="top"
-          v-tooltip="'Создать новую запись'">
+          v-tooltip="tooltip">
           <i class="large material-icons">add</i>
         </router-link>
       </div>
@@ -31,13 +32,15 @@
 <script>
 import Navbar from "@/components/app/Navbar";
 import Sidebar from "@/components/app/Sidebar";
+import localizeFilter from '@/filters/localize.filter';
+
 export default {
   data: () => ({
     isOpen: true,
     loading: true
   }),
   async mounted() {
-    if(!Object.keys(this.$store.getters.getUserData).length) {
+    if(!this.$store.getters.getUserData.bill || !this.$store.getters.getUserData.name) {
       await this.$store.dispatch('fetchUserData');
     }
     this.loading = false;
@@ -52,7 +55,9 @@ export default {
     },
     locale() {
     return this.$store.getters.getUserData.locale;
-
+    },
+    tooltip() {
+      return `${localizeFilter('Add_Record')}`;
     }
   },
   watch: {

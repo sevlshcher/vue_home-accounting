@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>Новая запись</h3>
+      <h3>{{ 'Menu_New_Record' | localize }}</h3>
     </div>
 
     <Loader v-if="loading" />
 
     <div v-else-if="!categories.length" class="page-subtitle">
-      <h4 class="center">Категорий пока нет. <router-link to="/categories">Добавить новую категорию</router-link></h4>
+      <h4 class="center">{{ 'No_Categories' | localize }}. <router-link to="/categories">{{ 'Add_Category' | localize }}</router-link></h4>
     </div>
 
     <form
@@ -23,7 +23,7 @@
             :key="cat.id"
             :value="cat.id">{{ cat.title }}</option>
         </select>
-        <label>Выберите категорию</label>
+        <label>{{ 'Select_Categories' | localize }}</label>
       </div>
 
       <p>
@@ -34,7 +34,7 @@
             type="radio"
             value="income"
             v-model="type" />
-          <span>Доход</span>
+          <span>{{ 'Income' | localize }}</span>
         </label>
       </p>
 
@@ -46,7 +46,7 @@
             type="radio"
             value="outcome"
             v-model="type" />
-          <span>Расход</span>
+          <span>{{ 'Expense' | localize }}</span>
         </label>
       </p>
 
@@ -56,16 +56,16 @@
           type="number"
           v-model.number="amount"
           :class="{ invalid: ($v.amount.$dirty && !$v.amount.minValue || $v.amount.$dirty && !$v.amount.required) }" />
-        <label for="amount">Сумма</label>
+        <label for="amount">{{ 'Amount' | localize }}</label>
         <span
           v-if="$v.amount.$dirty && !$v.amount.minValue"
           class="helper-text invalid">
-          Минимальная значение {{ $v.amount.$params.minValue.min }}
+          {{ 'Enter_Limit' | localize }} {{ $v.amount.$params.minValue.min }}
         </span>
         <span
           v-if="$v.amount.$dirty && !$v.amount.required"
           class="helper-text invalid">
-          Введите сумму
+          {{ 'Enter_Amount' | localize }}
         </span>
       </div>
 
@@ -75,16 +75,16 @@
           type="text"
           v-model="description"
           :class="{invalid: $v.description.$dirty && !$v.description.required }" />
-        <label for="description">Описание</label>
+        <label for="description">{{ 'Description' | localize }}</label>
         <span
           v-if="$v.description.$dirty && !$v.description.required"
           class="helper-text invalid">
-          Введите описание
+          {{ 'Enter_Description' | localize }}
         </span>
       </div>
 
       <button class="btn waves-effect waves-light" type="submit">
-        Создать
+        {{ 'Create' | localize }}
         <i class="material-icons right">send</i>
       </button>
     </form>
@@ -96,6 +96,11 @@ import { mapGetters, mapActions } from 'vuex';
 import { required, minValue } from 'vuelidate/lib/validators';
 
 export default {
+  metaInfo() {
+    return {
+      title: this.$title('Menu_New_Record')
+    }
+  },
   data: () => ({
     loading: true,
     select: null,

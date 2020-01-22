@@ -6,7 +6,7 @@
     <div v-else-if="record">
       <div class="breadcrumb-wrap">
         <router-link to="/history" class="breadcrumb">
-          История
+          {{ 'Menu_History' | localize }}
         </router-link>
         <a @click.prevent class="breadcrumb">{{ record.typeText }}</a>
       </div>
@@ -16,9 +16,9 @@
             :class="[record.typeClass]"
             class="card">
             <div class="card-content white-text">
-              <p>Описание: {{ record.description }}</p>
-              <p>Сумма: {{ record.amount | currency }}</p>
-              <p>Категория: {{ record.categoryName }}</p>
+              <p>{{ 'Description' | localize }}: {{ record.description }}</p>
+              <p>{{ 'Amount' | localize }}: {{ record.amount | currency }}</p>
+              <p>{{ 'Category' | localize }}: {{ record.categoryName }}</p>
 
               <small> {{ record.date | date('datetime') }}</small>
             </div>
@@ -28,7 +28,7 @@
     </div>
 
     <div v-else class="page-subtitle">
-      <h4 class="center">Запись не найдена</h4>
+      <h4 class="center">{{ 'Record_Not_Found' | localize }}</h4>
     </div>
 
   </div>
@@ -36,6 +36,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import localizeFilter from '@/filters/localize.filter';
 
 export default {
   data: () => ({
@@ -51,7 +52,7 @@ export default {
       ...record,
       categoryName: category.title,
       typeClass: record.type === 'income' ? 'green' : 'red',
-      typeText: record.type === 'income' ? 'Доход' : 'Расход',
+      typeText: record.type === 'income' ? localizeFilter('Income') : localizeFilter('Expense'),
     }
 
     this.loading = false;

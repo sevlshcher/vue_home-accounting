@@ -12,7 +12,7 @@
             type="text"
             v-model="title"
             :class="{invalid: $v.title.$dirty && !$v.title.required }" />
-          <label for="name">{{ 'Category_Name' | localize }}</label>
+          <label for="name">{{ 'Category' | localize }}</label>
           <span
             v-if="$v.title.$dirty && !$v.title.required"
             class="helper-text invalid">
@@ -30,7 +30,7 @@
           <span
             v-if="$v.limit.$dirty && !$v.limit.minValue"
             class="helper-text invalid">
-            {{ 'Enter_Category_Limit' | localize }} {{ $v.limit.$params.minValue.min }}
+            {{ 'Enter_Limit' | localize }} {{ $v.limit.$params.minValue.min }}
           </span>
         </div>
 
